@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ARC: Adaptive Residual Correction</title>
+<style>
+  :root { --ink:#1b1b1b; --muted:#5c5c5c; --line:#e3e3e3; --bg:#ffffff; --card:#f6f6f4; --accent:#1c5cab; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font-family: Georgia, "Times New Roman", serif; line-height:1.55; }
+  main { max-width: 960px; margin: 0 auto; padding: 48px 16px 64px; }
+  header { text-align:center; margin-bottom: 40px; }
+  h1 { font-size: 2rem; margin: 0 0 8px; line-height:1.25; }
+  .subtitle { font-size: 1.15rem; color: var(--muted); margin: 0 0 18px; }
+  .authors { font-size: 1rem; margin: 0 0 4px; }
+  .venue { font-size: .95rem; color: var(--muted); margin: 0; }
+  h2 { font-size: 1.35rem; border-bottom: 1px solid var(--line); padding-bottom: 6px; margin: 44px 0 18px; }
+  h3 { font-size: 1.05rem; margin: 0 0 10px; }
+  .task { background: var(--card); border-radius: 10px; padding: 16px; margin-bottom: 18px; }
+  .pair { display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .clip p { margin: 6px 0 0; font-size: .9rem; color: var(--muted); text-align:center; }
+  .clip.arc p { color: var(--accent); }
+  video, .fig img { width: 100%; display:block; border-radius: 6px; background:#000; }
+  .fig { margin: 0 0 28px; }
+  .fig img { background: #fff; border: 1px solid var(--line); }
+  .fig figcaption { font-size: .92rem; color: var(--muted); margin-top: 8px; }
+  footer { margin-top: 56px; font-size: .85rem; color: var(--muted); text-align:center; }
+  @media (max-width: 640px) { .pair { grid-template-columns: 1fr; } h1 { font-size: 1.55rem; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>ARC: Adaptive Residual Correction</h1>
+    <p class="subtitle">Better to Precise: Human-Guided Adaptive Residual Correction for Robot Policies</p>
+    <p class="authors">Anonymous Authors</p>
+    <p class="venue">Paper under double-blind review</p>
+  </header>
+
+  <h2>Task videos</h2>
+  <!-- Put clips in assets/videos/ with these names (mp4, H.264). -->
+  <section class="task">
+    <h3>Tray stacking</h3>
+    <div class="pair">
+      <div class="clip"><video controls muted playsinline preload="metadata" src="assets/videos/tray_base.mp4"></video><p>Base ACT</p></div>
+      <div class="clip arc"><video controls muted playsinline preload="metadata" src="assets/videos/tray_arc.mp4"></video><p>ARC</p></div>
+    </div>
+  </section>
+  <section class="task">
+    <h3>Marker insertion</h3>
+    <div class="pair">
+      <div class="clip"><video controls muted playsinline preload="metadata" src="assets/videos/marker_base.mp4"></video><p>Base ACT</p></div>
+      <div class="clip arc"><video controls muted playsinline preload="metadata" src="assets/videos/marker_arc.mp4"></video><p>ARC</p></div>
+    </div>
+  </section>
+  <section class="task">
+    <h3>Cup stacking</h3>
+    <div class="pair">
+      <div class="clip"><video controls muted playsinline preload="metadata" src="assets/videos/cup_base.mp4"></video><p>Base ACT</p></div>
+      <div class="clip arc"><video controls muted playsinline preload="metadata" src="assets/videos/cup_arc.mp4"></video><p>ARC</p></div>
+    </div>
+  </section>
+
+  <h2>Additional results</h2>
+  <!-- Copy a block per graph; put images in assets/figures/. -->
+  <figure class="fig">
+    <img src="assets/figures/result_1.png" alt="Additional result 1">
+    <figcaption>Caption for additional result 1.</figcaption>
+  </figure>
+
+  <footer>Anonymous project page for double-blind review.</footer>
+</main>
+</body>
+</html>
