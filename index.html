@@ -52,6 +52,9 @@
   video { width:100%; display:block; border-radius:8px; background:#000; }
   .vbase video { outline: 3px solid #d6d5d0; outline-offset:-3px; }
   .varc video { outline: 3px solid var(--arc); outline-offset:-3px; }
+  .varc, .vbase { position: relative; }
+  .speed { position:absolute; top:8px; right:8px; font-family:-apple-system,"Helvetica Neue",Arial,sans-serif;
+           font-size:.75rem; font-weight:600; color:#fff; background:rgba(0,0,0,.55); padding:2px 8px; border-radius:999px; }
 
   .pair2 { display:grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .pair2 p { font-size:.93rem; color:var(--muted); margin-top:8px; }
@@ -146,7 +149,7 @@
     <div class="vrow">
       <div class="task">Cup stacking</div>
       <div class="vbase"><video controls muted playsinline preload="metadata" src="assets/videos/cup_base.mp4"></video></div>
-      <div class="varc"><video controls muted playsinline preload="metadata" src="assets/videos/cup_arc.mp4"></video></div>
+      <div class="varc"><video controls muted playsinline preload="metadata" src="assets/videos/cup_arc.mp4"></video><div class="speed">3× speed</div></div>
     </div>
   </section>
 
