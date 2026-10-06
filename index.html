@@ -6,69 +6,165 @@
 <meta name="robots" content="noindex, nofollow">
 <title>ARC: Adaptive Residual Correction</title>
 <style>
-  :root { --ink:#1b1b1b; --muted:#5c5c5c; --line:#e3e3e3; --bg:#ffffff; --card:#f6f6f4; --accent:#1c5cab; }
+  :root {
+    --ink:#1a1a1a; --muted:#5b5b58; --line:#e5e4df; --bg:#ffffff; --card:#f6f6f3;
+    --arc:#1c5cab; --arc-soft:#e8f0fa; --base:#8a8983;
+  }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body { margin:0; background:var(--bg); color:var(--ink);
-         font-family: Georgia, "Times New Roman", serif; line-height:1.55; }
-  main { max-width: 960px; margin: 0 auto; padding: 48px 16px 64px; }
-  header { text-align:center; margin-bottom: 40px; }
-  h1 { font-size: 2rem; margin: 0 0 8px; line-height:1.25; }
-  .subtitle { font-size: 1.15rem; color: var(--muted); margin: 0 0 18px; }
-  .authors { font-size: 1rem; margin: 0 0 4px; }
-  .venue { font-size: .95rem; color: var(--muted); margin: 0; }
-  h2 { font-size: 1.35rem; border-bottom: 1px solid var(--line); padding-bottom: 6px; margin: 44px 0 18px; }
-  h3 { font-size: 1.05rem; margin: 0 0 10px; }
-  .task { background: var(--card); border-radius: 10px; padding: 16px; margin-bottom: 18px; }
-  .pair { display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .clip p { margin: 6px 0 0; font-size: .9rem; color: var(--muted); text-align:center; }
-  .clip.arc p { color: var(--accent); }
-  video, .fig img { width: 100%; display:block; border-radius: 6px; background:#000; }
-  .fig { margin: 0 0 28px; }
-  .fig img { background: #fff; border: 1px solid var(--line); }
-  .fig figcaption { font-size: .92rem; color: var(--muted); margin-top: 8px; }
-  footer { margin-top: 56px; font-size: .85rem; color: var(--muted); text-align:center; }
-  @media (max-width: 640px) { .pair { grid-template-columns: 1fr; } h1 { font-size: 1.55rem; } }
+         font-family: Georgia, "Times New Roman", serif; line-height:1.6; }
+  main { max-width: 1000px; margin: 0 auto; padding: 0 16px 72px; }
+
+  header { text-align:center; padding: 64px 0 36px; }
+  .acronym { display:inline-block; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
+             font-size:.8rem; letter-spacing:.18em; color:var(--arc); background:var(--arc-soft);
+             padding:4px 12px; border-radius:999px; margin-bottom:18px; }
+  h1 { font-size: 2.3rem; line-height:1.2; margin: 0 auto 18px; max-width: 820px; font-weight: 700; }
+  .authors { font-size: 1.1rem; margin: 0; }
+  .venue { font-size: .95rem; color: var(--muted); margin: 4px 0 0; }
+
+  section { margin-top: 56px; }
+  h2 { font-size: 1.5rem; margin: 0 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  h3 { font-size: 1.12rem; margin: 0 0 10px; }
+  p { margin: 0 0 14px; }
+
+  .teaser img, .fig img { width:100%; display:block; border:1px solid var(--line); border-radius:8px; background:#fff; }
+  .teaser figcaption, .fig figcaption { font-size:.93rem; color:var(--muted); margin-top:10px; }
+  figure { margin: 0; }
+
+  .abstract { background: var(--card); border-radius: 10px; padding: 22px 26px; font-size: 1.04rem;
+              text-align: justify; hyphens: auto; }
+  .abstract em { color: var(--arc); font-style: italic; }
+
+  .exp { display:grid; gap: 36px; }
+  .exp .tag { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-size:.75rem;
+              letter-spacing:.12em; color:var(--arc); font-weight:600; margin-bottom:4px; }
+
+  .colhead { display:grid; grid-template-columns: 140px 1fr 1fr; gap: 14px; margin-bottom: 6px;
+             font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-size:.9rem;
+             font-weight:600; text-align:center; }
+  .colhead .b { color: var(--base); } .colhead .a { color: var(--arc); }
+  .vrow { display:grid; grid-template-columns: 140px 1fr 1fr; gap: 14px; align-items:center;
+          margin-bottom: 18px; }
+  .vrow .task { font-weight:700; font-size:1.02rem; }
+  .vrow .task span { display:block; font-weight:400; font-size:.85rem; color:var(--muted); }
+  video { width:100%; display:block; border-radius:8px; background:#000; }
+  .vbase video { outline: 3px solid #d6d5d0; outline-offset:-3px; }
+  .varc video { outline: 3px solid var(--arc); outline-offset:-3px; }
+
+  .pair2 { display:grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .pair2 p { font-size:.93rem; color:var(--muted); margin-top:8px; }
+
+  footer { margin-top: 64px; font-size:.85rem; color:var(--muted); text-align:center; }
+
+  @media (max-width: 720px) {
+    h1 { font-size: 1.6rem; }
+    .colhead { display:none; }
+    .vrow { grid-template-columns: 1fr; gap: 8px; }
+    .vrow .vbase::before { content:"Base policy"; display:block; font-size:.85rem; color:var(--base); }
+    .vrow .varc::before { content:"ARC (ours)"; display:block; font-size:.85rem; color:var(--arc); }
+    .pair2 { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
 <main>
   <header>
-    <h1>ARC: Adaptive Residual Correction</h1>
-    <p class="subtitle">Better to Precise: Human-Guided Adaptive Residual Correction for Robot Policies</p>
+    <div class="acronym">ARC · ADAPTIVE RESIDUAL CORRECTION</div>
+    <h1>When, Where, and What to Correct: Human-Guided Adaptive Residual Correction for Robot Policies</h1>
     <p class="authors">Anonymous Authors</p>
     <p class="venue">Paper under double-blind review</p>
   </header>
 
-  <h2>Task videos</h2>
-  <!-- Put clips in assets/videos/ with these names (mp4, H.264). -->
-  <section class="task">
-    <h3>Tray stacking</h3>
-    <div class="pair">
-      <div class="clip"><video controls muted playsinline preload="metadata" src="assets/videos/tray_base.mp4"></video><p>Base ACT</p></div>
-      <div class="clip arc"><video controls muted playsinline preload="metadata" src="assets/videos/tray_arc.mp4"></video><p>ARC</p></div>
-    </div>
-  </section>
-  <section class="task">
-    <h3>Marker insertion</h3>
-    <div class="pair">
-      <div class="clip"><video controls muted playsinline preload="metadata" src="assets/videos/marker_base.mp4"></video><p>Base ACT</p></div>
-      <div class="clip arc"><video controls muted playsinline preload="metadata" src="assets/videos/marker_arc.mp4"></video><p>ARC</p></div>
-    </div>
-  </section>
-  <section class="task">
-    <h3>Cup stacking</h3>
-    <div class="pair">
-      <div class="clip"><video controls muted playsinline preload="metadata" src="assets/videos/cup_base.mp4"></video><p>Base ACT</p></div>
-      <div class="clip arc"><video controls muted playsinline preload="metadata" src="assets/videos/cup_arc.mp4"></video><p>ARC</p></div>
+  <figure class="teaser">
+    <img src="assets/figures/overview.png" alt="Overview of ARC: a frozen ACT policy plus a gated residual correction learned with RL inside a human-derived corrective subspace.">
+    <figcaption>A frozen ACT policy executes most of the task but fails locally. ARC adds a residual correction that is
+      switched on only when needed (<b>WHEN</b>, gate learned from human pre-intervention states), restricted to
+      human corrective directions (<b>WHERE</b>, subspace <i>B<sub>H</sub></i>), and learned from task reward with RL
+      (<b>WHAT</b>). When the gate is off, the robot executes the base action unchanged.</figcaption>
+  </figure>
+
+  <section>
+    <h2>Abstract</h2>
+    <div class="abstract">
+      Imitation policies that reliably execute most of a manipulation trajectory can still fail in localized regions
+      requiring last-mile precision. Updating the full policy or exploring residual actions everywhere treats this
+      local failure as a global learning problem. We introduce <b>Adaptive Residual Correction (ARC)</b>, a lightweight
+      post-training module that uses reinforcement learning (RL) to learn a residual correction on top of a frozen
+      policy while using sparse human corrections to structure autonomous exploration. Rather than treating human
+      corrections as imitation targets, ARC uses pre-intervention states to determine <em>when</em> residual control
+      should become active and correction geometry to determine <em>where in residual action space</em> autonomous
+      refinement should explore; task reward determines <em>what</em> residual is ultimately executed.
     </div>
   </section>
 
-  <h2>Additional results</h2>
-  <!-- Copy a block per graph; put images in assets/figures/. -->
-  <figure class="fig">
-    <img src="assets/figures/result_1.png" alt="Additional result 1">
-    <figcaption>Caption for additional result 1.</figcaption>
-  </figure>
+  <section>
+    <h2>Experiments</h2>
+    <div class="exp">
+      <figure class="fig">
+        <div class="tag">Q1 · OVERALL PERFORMANCE</div>
+        <h3>ARC improves real-robot task success on three precision tasks</h3>
+        <img src="assets/figures/fig_success.png" alt="Task success of Base ACT, supervised residual and ARC on tray stacking, marker insertion and cup stacking.">
+        <figcaption>Success over 12 real-robot trials per method on tray stacking, marker insertion and cup stacking,
+          with 95% Wilson intervals.</figcaption>
+      </figure>
+      <figure class="fig">
+        <div class="tag">Q2 · WHEN AND WHERE</div>
+        <h3>Sparse corrections localize refinement in time and in action space</h3>
+        <img src="assets/figures/fig_when_where.png" alt="Gate transfer to autonomous rollouts, gate quality, retained correction energy, and the corrective subspace.">
+        <figcaption>(a) A gate trained on pre-intervention states activates on 10/10 untouched autonomous rollouts;
+          one trained on correction-active states never does. (b) Gate quality and how rarely it opens.
+          (c) Human corrections in 7 joints are captured by 2–3 directions. (d) The learned corrective subspace and
+          the bounded exploration region (marker insertion).</figcaption>
+      </figure>
+      <figure class="fig">
+        <div class="tag">Q3 · WHAT</div>
+        <h3>Same corrective subspace, different correction</h3>
+        <img src="assets/figures/fig_what.png" alt="Supervised residual inside the same subspace versus ARC: prediction error, residual size and chosen coefficients.">
+        <figcaption>Inside the same subspace and bounds, a residual supervised on human corrections barely improves on
+          predicting zero (a), applies much larger corrections (b), and often chooses the opposite direction to ARC (c).</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>Real-robot videos</h2>
+    <div class="colhead"><div></div><div class="b">Base policy (no correction)</div><div class="a">Adaptive Residual Correction (ours)</div></div>
+    <div class="vrow">
+      <div class="task">Tray stacking<span>same table pose</span></div>
+      <div class="vbase"><video controls muted playsinline preload="metadata" src="assets/videos/tray_base.mp4"></video></div>
+      <div class="varc"><video controls muted playsinline preload="metadata" src="assets/videos/tray_arc.mp4"></video></div>
+    </div>
+    <!-- Marker insertion row: add when the ARC clip is confirmed.
+    <div class="vrow">
+      <div class="task">Marker insertion</div>
+      <div class="vbase"><video controls muted playsinline preload="metadata" src="assets/videos/marker_base.mp4"></video></div>
+      <div class="varc"><video controls muted playsinline preload="metadata" src="assets/videos/marker_arc.mp4"></video></div>
+    </div>
+    -->
+    <div class="vrow">
+      <div class="task">Cup stacking</div>
+      <div class="vbase"><video controls muted playsinline preload="metadata" src="assets/videos/cup_base.mp4"></video></div>
+      <div class="varc"><video controls muted playsinline preload="metadata" src="assets/videos/cup_arc.mp4"></video></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Inside ARC</h2>
+    <div class="pair2">
+      <div>
+        <video controls muted playsinline preload="metadata" src="assets/videos/cup_human_correction.mp4"></video>
+        <p><b>Sparse human corrections.</b> A person nudges the frozen policy with a SpaceMouse only at a few moments
+          (orange). These short episodes define WHEN and WHERE corrections are needed.</p>
+      </div>
+      <div>
+        <video controls muted playsinline preload="metadata" src="assets/videos/marker_gate.mp4"></video>
+        <p><b>The learned gate.</b> The residual is exactly zero while the gate is closed and is added only once the
+          gate opens (blue).</p>
+      </div>
+    </div>
+  </section>
 
   <footer>Anonymous project page for double-blind review.</footer>
 </main>
