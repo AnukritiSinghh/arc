@@ -59,6 +59,12 @@
   .pair2 { display:grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .pair2 p { font-size:.93rem; color:var(--muted); margin-top:8px; }
 
+  .links { margin-top: 18px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .btn { font-family:-apple-system,"Helvetica Neue",Arial,sans-serif; font-size:.95rem; font-weight:600;
+         text-decoration:none; color:#fff; background:var(--ink); padding:9px 18px; border-radius:999px; }
+  .btn.ghost { color:var(--ink); background:transparent; border:1.5px solid var(--ink); }
+  .pdf { width:100%; height:1100px; border:1px solid var(--line); border-radius:8px; }
+  @media (max-width: 720px) { .pdf { height: 70vh; } }
   footer { margin-top: 64px; font-size:.85rem; color:var(--muted); text-align:center; }
 
   @media (max-width: 720px) {
@@ -78,6 +84,10 @@
     <h1>When, Where, and What to Correct: Human-Guided Adaptive Residual Correction for Robot Policies</h1>
     <p class="authors">Anonymous Authors</p>
     <p class="venue">Paper under double-blind review</p>
+    <div class="links">
+      <a class="btn" href="assets/paper.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
+      <a class="btn ghost" href="#videos">Videos</a>
+    </div>
   </header>
 
   <figure class="teaser">
@@ -98,7 +108,12 @@
       policy while using sparse human corrections to structure autonomous exploration. Rather than treating human
       corrections as imitation targets, ARC uses pre-intervention states to determine <em>when</em> residual control
       should become active and correction geometry to determine <em>where in residual action space</em> autonomous
-      refinement should explore; task reward determines <em>what</em> residual is ultimately executed.
+      refinement should explore; task reward determines <em>what</em> residual is ultimately executed. Across three
+      precision-manipulation tasks on a real robot, ARC improves average task success from 33.3% to 75.0%. The human
+      corrections define task-dependent 2–3-dimensional subspaces of the seven-joint residual space that retain
+      96.0–97.7% of squared correction magnitude. Together, these results show that sparse human corrections can
+      localize and constrain autonomous post-training without requiring the observed correction itself to serve as
+      the final action target.
     </div>
   </section>
 
@@ -132,7 +147,7 @@
   </section>
 
   <section>
-    <h2>Real-robot videos</h2>
+    <h2 id="videos">Real-robot videos</h2>
     <div class="colhead"><div></div><div class="b">Base policy (no correction)</div><div class="a">Adaptive Residual Correction (ours)</div></div>
     <div class="vrow">
       <div class="task">Tray stacking<span>same table pose</span></div>
@@ -165,6 +180,13 @@
           gate opens (blue).</p>
       </div>
     </div>
+  </section>
+
+  <section>
+    <h2>Paper</h2>
+    <object class="pdf" data="assets/paper.pdf#view=FitH" type="application/pdf">
+      <p>Your browser cannot show the PDF here. <a href="assets/paper.pdf">Open the paper (PDF)</a>.</p>
+    </object>
   </section>
 
   <footer>Anonymous project page for double-blind review.</footer>
