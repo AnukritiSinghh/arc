@@ -8,82 +8,131 @@
 <style>
   :root {
     --ink:#1a1a1a; --muted:#5b5b58; --line:#e5e4df; --bg:#ffffff; --card:#f6f6f3;
-    --arc:#1c5cab; --arc-soft:#e8f0fa; --base:#8a8983;
+    --arc:#1c5cab; --arc-soft:#e8f0fa; --base:#8a8983; --human:#c96f3b;
+    --sans:-apple-system, "Helvetica Neue", Arial, sans-serif;
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   body { margin:0; background:var(--bg); color:var(--ink);
          font-family: Georgia, "Times New Roman", serif; line-height:1.6; }
   main { max-width: 1000px; margin: 0 auto; padding: 0 16px 72px; }
 
-  header { text-align:center; padding: 64px 0 36px; }
-  .acronym { display:inline-block; font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-             font-size:.8rem; letter-spacing:.18em; color:var(--arc); background:var(--arc-soft);
-             padding:4px 12px; border-radius:999px; margin-bottom:18px; }
+  nav { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.94);
+        backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+  nav .in { max-width: 1000px; margin: 0 auto; padding: 10px 16px; display:flex; gap: 22px;
+            font-family: var(--sans); font-size: .9rem; overflow-x: auto; white-space: nowrap; }
+  nav a { color: var(--muted); text-decoration: none; }
+  nav a:hover { color: var(--arc); }
+  nav .brand { color: var(--ink); font-weight: 700; margin-right: auto; }
+
+  header { text-align:center; padding: 56px 0 28px; }
+  .acronym { display:inline-block; font-family: var(--sans); font-size:.8rem; letter-spacing:.18em;
+             color:var(--arc); background:var(--arc-soft); padding:4px 12px; border-radius:999px; margin-bottom:18px; }
   h1 { font-size: 2.3rem; line-height:1.2; margin: 0 auto 18px; max-width: 820px; font-weight: 700; }
   .authors { font-size: 1.1rem; margin: 0; }
   .venue { font-size: .95rem; color: var(--muted); margin: 4px 0 0; }
+  .links { margin-top: 18px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .btn { font-family:var(--sans); font-size:.95rem; font-weight:600; text-decoration:none; color:#fff;
+         background:var(--ink); padding:9px 18px; border-radius:999px; border:0; cursor:pointer; }
+  .btn.ghost { color:var(--ink); background:transparent; border:1.5px solid var(--ink); }
 
-  section { margin-top: 56px; }
-  h2 { font-size: 1.5rem; margin: 0 0 18px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  .tldr { font-size: 1.15rem; line-height: 1.55; text-align: center; max-width: 820px; margin: 8px auto 28px; }
+  .tldr b { color: var(--arc); }
+  .stats { display:grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 40px; }
+  .stat { background: var(--card); border-radius: 10px; padding: 16px 14px; text-align: center; }
+  .stat .n { font-size: 1.75rem; font-weight: 700; color: var(--arc); line-height: 1.15; }
+  .stat .l { font-family: var(--sans); font-size: .82rem; color: var(--muted); margin-top: 4px; line-height: 1.35; }
+
+  section { margin-top: 64px; }
+  h2 { font-size: 1.5rem; margin: 0 0 8px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+  .lead { color: var(--muted); margin: 0 0 20px; }
   h3 { font-size: 1.12rem; margin: 0 0 10px; }
   p { margin: 0 0 14px; }
 
   .teaser img, .fig img { width:100%; display:block; border:1px solid var(--line); border-radius:8px; background:#fff; }
   .teaser figcaption, .fig figcaption { font-size:.93rem; color:var(--muted); margin-top:10px; }
   figure { margin: 0; }
-
-  .abstract { background: var(--card); border-radius: 10px; padding: 22px 26px; font-size: 1.04rem;
+  .abstract { background: var(--card); border-radius: 10px; padding: 22px 26px; font-size: 1.02rem;
               text-align: justify; hyphens: auto; }
   .abstract em { color: var(--arc); font-style: italic; }
 
-  .exp { display:grid; gap: 36px; }
-  .exp .tag { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-size:.75rem;
-              letter-spacing:.12em; color:var(--arc); font-weight:600; margin-bottom:4px; }
-
-  .colhead { display:grid; grid-template-columns: 140px 1fr 1fr; gap: 14px; margin-bottom: 6px;
-             font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-size:.9rem;
-             font-weight:600; text-align:center; }
-  .colhead .b { color: var(--base); } .colhead .a { color: var(--arc); }
-  .vrow { display:grid; grid-template-columns: 140px 1fr 1fr; gap: 14px; align-items:center;
-          margin-bottom: 18px; }
-  .vrow .task { font-weight:700; font-size:1.02rem; }
-  .vrow .task span { display:block; font-weight:400; font-size:.85rem; color:var(--muted); }
+  /* videos */
   video { width:100%; display:block; border-radius:8px; background:#000; }
   .vbase video { outline: 3px solid #d6d5d0; outline-offset:-3px; }
   .varc video { outline: 3px solid var(--arc); outline-offset:-3px; }
   .varc, .vbase { position: relative; }
-  .speed { position:absolute; top:8px; right:8px; font-family:-apple-system,"Helvetica Neue",Arial,sans-serif;
-           font-size:.75rem; font-weight:600; color:#fff; background:rgba(0,0,0,.55); padding:2px 8px; border-radius:999px; }
-
-  .pair2 { display:grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  .pair2 p { font-size:.93rem; color:var(--muted); margin-top:8px; }
-
-  .links { margin-top: 18px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
-  .btn { font-family:-apple-system,"Helvetica Neue",Arial,sans-serif; font-size:.95rem; font-weight:600;
-         text-decoration:none; color:#fff; background:var(--ink); padding:9px 18px; border-radius:999px; }
-  .btn.ghost { color:var(--ink); background:transparent; border:1.5px solid var(--ink); }
-  .pdf { width:100%; height:1100px; border:1px solid var(--line); border-radius:8px; }
-  @media (max-width: 720px) { .pdf { height: 70vh; } }
+  .speed { position:absolute; top:8px; right:8px; font-family:var(--sans); font-size:.75rem; font-weight:600;
+           color:#fff; background:rgba(0,0,0,.55); padding:2px 8px; border-radius:999px; }
+  .colhead { display:grid; grid-template-columns: 150px 1fr 1fr; gap: 14px; margin-bottom: 6px;
+             font-family: var(--sans); font-size:.9rem; font-weight:600; text-align:center; }
+  .colhead .b { color: var(--base); } .colhead .a { color: var(--arc); }
+  .vrow { display:grid; grid-template-columns: 150px 1fr 1fr; gap: 14px; align-items:center; margin-bottom: 18px; }
+  .vrow .task { font-weight:700; font-size:1.02rem; }
+  .vrow .task span { display:block; font-weight:400; font-size:.85rem; color:var(--muted); }
+  .sync { margin-top: 8px; font-family: var(--sans); font-size: .8rem; font-weight: 600; color: var(--arc);
+          background: var(--arc-soft); border: 0; border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+  .sync:hover { background: #d7e5f7; }
   .third { display:grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 760px; margin: 0 auto; }
   .third video { aspect-ratio: 9 / 16; object-fit: cover; }
-  .cap { text-align:center; font-family:-apple-system,"Helvetica Neue",Arial,sans-serif; font-size:.9rem;
-         font-weight:600; margin:8px 0 0; }
+  .cap { text-align:center; font-family:var(--sans); font-size:.9rem; font-weight:600; margin:8px 0 0; }
   .cap.b { color: var(--base); } .cap.a { color: var(--arc); }
+  .center { text-align: center; }
+
+  /* interactive gate player */
+  .player { background: var(--card); border-radius: 12px; padding: 18px; }
+  .tabs { display:flex; gap: 8px; margin-bottom: 14px; font-family: var(--sans); }
+  .tab { border: 1.5px solid var(--line); background: #fff; border-radius: 999px; padding: 6px 14px;
+         font-size: .88rem; font-weight: 600; color: var(--muted); cursor: pointer; }
+  .tab[aria-selected="true"] { border-color: var(--arc); color: var(--arc); background: var(--arc-soft); }
+  .pgrid { display:grid; grid-template-columns: 1.05fr 1fr; gap: 18px; align-items: start; }
+  .readout { font-family: var(--sans); font-size: .95rem; font-weight: 600; padding: 10px 12px; border-radius: 8px;
+             background: #fff; border: 1.5px solid var(--line); margin-bottom: 10px; min-height: 46px; }
+  .readout.on { border-color: var(--arc); color: var(--arc); }
+  .readout .sub { display:block; font-weight: 400; color: var(--muted); font-size: .82rem; }
+  svg.trace { width: 100%; height: auto; display: block; background: #fff; border-radius: 8px; cursor: pointer;
+              border: 1px solid var(--line); }
+  .legend { display:flex; gap: 16px; flex-wrap: wrap; font-family: var(--sans); font-size: .8rem; color: var(--muted); margin-top: 8px; }
+  .sw { display:inline-block; width: 14px; height: 10px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
+  .pnote { font-size: .88rem; color: var(--muted); margin: 12px 0 0; }
+
+  /* method cards */
+  .cards { display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .card { background: var(--card); border-radius: 10px; padding: 18px; }
+  .card .k { font-family: var(--sans); font-size: .78rem; letter-spacing: .14em; font-weight: 700; color: var(--arc); }
+  .card h3 { margin: 4px 0 8px; }
+  .card p { font-size: .95rem; color: var(--muted); margin: 0; }
+  .card .num { font-family: var(--sans); font-size: .85rem; font-weight: 600; color: var(--ink); margin-top: 10px; }
+
+  .exp { display:grid; gap: 40px; }
+  .exp .tag { font-family: var(--sans); font-size:.75rem; letter-spacing:.12em; color:var(--arc); font-weight:600; margin-bottom:4px; }
+  .pair2 { display:grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .pair2 p { font-size:.93rem; color:var(--muted); margin-top:8px; }
+  .pdf { width:100%; height:1100px; border:1px solid var(--line); border-radius:8px; }
   footer { margin-top: 64px; font-size:.85rem; color:var(--muted); text-align:center; }
 
   @media (max-width: 720px) {
     h1 { font-size: 1.6rem; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
     .colhead { display:none; }
     .vrow { grid-template-columns: 1fr; gap: 8px; }
-    .vrow .vbase::before { content:"Base policy"; display:block; font-size:.85rem; color:var(--base); }
-    .vrow .varc::before { content:"ARC (ours)"; display:block; font-size:.85rem; color:var(--arc); }
-    .pair2 { grid-template-columns: 1fr; }
+    .vrow .vbase::before { content:"Base policy"; display:block; font-family:var(--sans); font-size:.85rem; color:var(--base); }
+    .vrow .varc::before { content:"ARC (ours)"; display:block; font-family:var(--sans); font-size:.85rem; color:var(--arc); }
+    .pgrid, .cards, .pair2 { grid-template-columns: 1fr; }
+    .pdf { height: 70vh; }
   }
 </style>
 </head>
 <body>
-<main>
+<nav aria-label="Sections"><div class="in">
+  <a class="brand" href="#top">ARC</a>
+  <a href="#videos">Videos</a>
+  <a href="#gate">Watch the gate</a>
+  <a href="#method">Method</a>
+  <a href="#results">Results</a>
+  <a href="#paper">Paper</a>
+</div></nav>
+
+<main id="top">
   <header>
     <div class="acronym">ARC · ADAPTIVE RESIDUAL CORRECTION</div>
     <h1>When, Where, and What to Correct: Human-Guided Adaptive Residual Correction for Robot Policies</h1>
@@ -95,6 +144,17 @@
     </div>
   </header>
 
+  <p class="tldr">A frozen imitation policy is usually right but fails in the last millimetres. ARC adds a small
+    correction learned with RL — switched on only <b>when</b> a human would have stepped in, searched only
+    <b>where</b> humans correct, with reward deciding <b>what</b> to execute.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="n">33% → 75%</div><div class="l">average success on three real-robot tasks</div></div>
+    <div class="stat"><div class="n">8–10</div><div class="l">human-corrected rollouts per task; base policy never retrained</div></div>
+    <div class="stat"><div class="n">2–3 of 7</div><div class="l">joint directions hold ≥96% of the human corrections</div></div>
+    <div class="stat"><div class="n">8.5% · 21%</div><div class="l">of exploration steps with the gate open (marker · cup)</div></div>
+  </div>
+
   <figure class="teaser">
     <img src="assets/figures/overview.png" alt="Overview of ARC: a frozen ACT policy plus a gated residual correction learned with RL inside a human-derived corrective subspace.">
     <figcaption>A frozen ACT policy executes most of the task but fails locally. ARC adds a residual correction that is
@@ -102,6 +162,77 @@
       human corrective directions (<b>WHERE</b>, subspace <i>B<sub>H</sub></i>), and learned from task reward with RL
       (<b>WHAT</b>). When the gate is off, the robot executes the base action unchanged.</figcaption>
   </figure>
+
+  <section id="videos">
+    <h2>Real-robot results</h2>
+    <p class="lead">Same frozen policy, same scene. Press <i>Play side by side</i> to start both clips together.</p>
+    <div class="colhead"><div></div><div class="b">Base policy (no correction)</div><div class="a">Adaptive Residual Correction (ours)</div></div>
+    <div class="vrow">
+      <div class="task">Tray stacking<span>same table pose</span><button class="sync" type="button">▶ Play side by side</button></div>
+      <div class="vbase"><video controls muted playsinline preload="metadata" src="assets/videos/tray_base.mp4"></video></div>
+      <div class="varc"><video controls muted playsinline preload="metadata" src="assets/videos/tray_arc.mp4"></video></div>
+    </div>
+    <div class="vrow">
+      <div class="task">Marker insertion<button class="sync" type="button">▶ Play side by side</button></div>
+      <div class="vbase"><video controls muted playsinline preload="metadata" src="assets/videos/marker_base.mp4"></video></div>
+      <div class="varc"><video controls muted playsinline preload="metadata" src="assets/videos/marker_arc.mp4"></video></div>
+    </div>
+    <div class="vrow">
+      <div class="task">Cup stacking<button class="sync" type="button">▶ Play side by side</button></div>
+      <div class="vbase"><video controls muted playsinline preload="metadata" src="assets/videos/cup_base.mp4"></video></div>
+      <div class="varc"><video controls muted playsinline preload="metadata" src="assets/videos/cup_arc.mp4"></video><div class="speed">3× speed</div></div>
+    </div>
+
+    <h3 style="margin-top:36px">Tray stacking, third-person view</h3>
+    <div class="third">
+      <div class="vbase"><video controls muted playsinline preload="metadata" src="assets/videos/tray_base_3rd.mp4"></video><p class="cap b">Base policy (no correction)</p></div>
+      <div class="varc"><video controls muted playsinline preload="metadata" src="assets/videos/tray_arc_3rd.mp4"></video><p class="cap a">Adaptive Residual Correction (ours)</p></div>
+    </div>
+    <p class="center"><button class="sync" type="button" data-scope="third">▶ Play side by side</button></p>
+  </section>
+
+  <section id="gate">
+    <h2>Watch the gate</h2>
+    <p class="lead">A real ARC rollout next to its logged gate state and correction size. Click anywhere on the trace to jump there.</p>
+    <div class="player">
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-ep="marker">Marker insertion</button>
+        <button class="tab" role="tab" aria-selected="false" data-ep="cup">Cup stacking</button>
+      </div>
+      <div class="pgrid">
+        <div class="varc"><video id="pv" controls muted playsinline preload="metadata"></video><div class="speed" id="pspeed" hidden>3× speed</div></div>
+        <div>
+          <div class="readout" id="ro">Press play</div>
+          <svg class="trace" id="tr" viewBox="0 0 600 260" role="img" aria-label="Gate state and correction size over the episode"></svg>
+          <div class="legend">
+            <span><span class="sw" style="background:#dbe7f7"></span>gate open</span>
+            <span><span class="sw" style="background:#1c5cab;height:3px"></span>correction size (max over joints)</span>
+            <span><span class="sw" style="background:#1a1a1a;width:3px"></span>now</span>
+          </div>
+        </div>
+      </div>
+      <p class="pnote" id="pnote"></p>
+    </div>
+  </section>
+
+  <section id="method">
+    <h2>How ARC works</h2>
+    <p class="lead">Sparse human corrections define the <i>support</i> of the correction; task reward chooses the correction itself.</p>
+    <div class="cards">
+      <div class="card"><div class="k">WHEN</div><h3>Predict the intervention</h3>
+        <p>A gate is trained on the robot-controlled states just <i>before</i> a human steps in, not on states already
+          altered by the human — so it still fires when no human is present.</p>
+        <div class="num">Fires on 10/10 untouched rollouts (vs 0/10)</div></div>
+      <div class="card"><div class="k">WHERE</div><h3>Search where humans correct</h3>
+        <p>Human corrections move the 7 joints in a few coordinated patterns. Their leading directions form a frozen
+          basis that bounds exploration and the final correction.</p>
+        <div class="num">2–3 directions keep 96–97.7%</div></div>
+      <div class="card"><div class="k">WHAT</div><h3>Let reward decide</h3>
+        <p>Autonomous episodes probe one signed direction at a time while the gate is open; a TD3 actor inside the
+          basis is trained from task reward. Human actions are never regression targets.</p>
+        <div class="num">Supervised in the same basis: −4% error vs predicting zero</div></div>
+    </div>
+  </section>
 
   <section>
     <h2>Abstract</h2>
@@ -122,7 +253,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="results">
     <h2>Experiments</h2>
     <div class="exp">
       <figure class="fig">
@@ -152,34 +283,6 @@
   </section>
 
   <section>
-    <h2 id="videos">Real-robot videos</h2>
-    <div class="colhead"><div></div><div class="b">Base policy (no correction)</div><div class="a">Adaptive Residual Correction (ours)</div></div>
-    <div class="vrow">
-      <div class="task">Tray stacking<span>same table pose</span></div>
-      <div class="vbase"><video controls muted playsinline preload="metadata" src="assets/videos/tray_base.mp4"></video></div>
-      <div class="varc"><video controls muted playsinline preload="metadata" src="assets/videos/tray_arc.mp4"></video></div>
-    </div>
-    <div class="vrow">
-      <div class="task">Marker insertion</div>
-      <div class="vbase"><video controls muted playsinline preload="metadata" src="assets/videos/marker_base.mp4"></video></div>
-      <div class="varc"><video controls muted playsinline preload="metadata" src="assets/videos/marker_arc.mp4"></video></div>
-    </div>
-    <div class="vrow">
-      <div class="task">Cup stacking</div>
-      <div class="vbase"><video controls muted playsinline preload="metadata" src="assets/videos/cup_base.mp4"></video></div>
-      <div class="varc"><video controls muted playsinline preload="metadata" src="assets/videos/cup_arc.mp4"></video><div class="speed">3× speed</div></div>
-    </div>
-  </section>
-
-  <section>
-    <h2>Tray stacking, third-person view</h2>
-    <div class="third">
-      <div class="vbase"><video controls muted playsinline preload="metadata" src="assets/videos/tray_base_3rd.mp4"></video><p class="cap b">Base policy (no correction)</p></div>
-      <div class="varc"><video controls muted playsinline preload="metadata" src="assets/videos/tray_arc_3rd.mp4"></video><p class="cap a">Adaptive Residual Correction (ours)</p></div>
-    </div>
-  </section>
-
-  <section>
     <h2>Inside ARC</h2>
     <div class="pair2">
       <div>
@@ -195,7 +298,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="paper">
     <h2>Paper</h2>
     <object class="pdf" data="assets/paper.pdf#view=FitH" type="application/pdf">
       <p>Your browser cannot show the PDF here. <a href="assets/paper.pdf">Open the paper (PDF)</a>.</p>
@@ -204,5 +307,109 @@
 
   <footer>Anonymous project page for double-blind review.</footer>
 </main>
+
+<script>
+// ---------- play two clips together ----------
+document.querySelectorAll('.sync').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var scope = btn.dataset.scope === 'third' ? document.querySelector('.third') : btn.closest('.vrow');
+    var vids = scope.querySelectorAll('video');
+    vids.forEach(function (v) { v.pause(); v.currentTime = 0; });
+    vids.forEach(function (v) { var p = v.play(); if (p && p.catch) p.catch(function () {}); });
+  });
+});
+
+// ---------- interactive gate player ----------
+(function () {
+  var EPS = {
+    marker: { video: 'assets/videos/marker_arc.mp4', data: 'assets/data/marker_trace.json', speed: false,
+              note: 'Marker insertion, successful ARC rollout. Logged on the robot.' },
+    cup:    { video: 'assets/videos/cup_arc.mp4', data: 'assets/data/cup_trace.json', speed: true,
+              note: 'Cup stacking, successful ARC rollout (video at 3× speed). Logged on the robot.' }
+  };
+  var NS = 'http://www.w3.org/2000/svg';
+  var W = 600, H = 260, L = 44, R = 12, T = 14, B = 34;
+  var video = document.getElementById('pv'), svg = document.getElementById('tr');
+  var ro = document.getElementById('ro'), note = document.getElementById('pnote');
+  var spd = document.getElementById('pspeed');
+  var cur = null, head = null, raf = 0, cache = {};
+
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    (parent || svg).appendChild(e); return e;
+  }
+  function draw(d) {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var n = d.res.length, tEnd = d.t[n - 1];
+    var ymax = Math.max(0.05, d.max_res_deg * 1.15);
+    var x = function (i) { return L + (W - L - R) * i / (n - 1); };
+    var y = function (v) { return T + (H - T - B) * (1 - v / ymax); };
+    // gate-open spans
+    var i = 0;
+    while (i < n) {
+      if (d.gate[i]) { var j = i; while (j < n && d.gate[j]) j++;
+        el('rect', { x: x(i), y: T, width: Math.max(1, x(j - 1) - x(i)), height: H - T - B, fill: '#dbe7f7' }); i = j; }
+      else i++;
+    }
+    // axes
+    el('line', { x1: L, y1: H - B, x2: W - R, y2: H - B, stroke: '#c9c8c2' });
+    el('line', { x1: L, y1: T, x2: L, y2: H - B, stroke: '#c9c8c2' });
+    [0, ymax / 2, ymax].forEach(function (v) {
+      var tx = el('text', { x: L - 6, y: y(v) + 4, 'text-anchor': 'end', 'font-size': 11, fill: '#5b5b58',
+                            'font-family': 'Arial, sans-serif' }); tx.textContent = v.toFixed(2) + '°';
+    });
+    var t0 = el('text', { x: L, y: H - 12, 'font-size': 11, fill: '#5b5b58', 'font-family': 'Arial, sans-serif' });
+    t0.textContent = '0 s';
+    var t1 = el('text', { x: W - R, y: H - 12, 'text-anchor': 'end', 'font-size': 11, fill: '#5b5b58',
+                          'font-family': 'Arial, sans-serif' });
+    t1.textContent = tEnd.toFixed(0) + ' s (robot time)';
+    // correction line
+    var pts = d.res.map(function (v, k) { return x(k).toFixed(1) + ',' + y(v).toFixed(1); }).join(' ');
+    el('polyline', { points: pts, fill: 'none', stroke: '#1c5cab', 'stroke-width': 1.6 });
+    head = el('line', { x1: L, y1: T, x2: L, y2: H - B, stroke: '#1a1a1a', 'stroke-width': 2 });
+    cur = { d: d, x: x, n: n };
+  }
+  function update() {
+    if (!cur || !video.duration) return;
+    var f = Math.min(1, Math.max(0, video.currentTime / video.duration));
+    var k = Math.round(f * (cur.n - 1));
+    var px = cur.x(k);
+    head.setAttribute('x1', px); head.setAttribute('x2', px);
+    var open = !!cur.d.gate[k], r = cur.d.res[k];
+    ro.className = 'readout' + (open ? ' on' : '');
+    ro.innerHTML = open
+      ? 'Gate OPEN — correction ' + r.toFixed(2) + '°<span class="sub">ARC adds a small residual inside the human subspace</span>'
+      : 'Gate CLOSED — base policy only<span class="sub">correction is exactly 0</span>';
+  }
+  function loop() { update(); if (!video.paused) raf = requestAnimationFrame(loop); }
+  video.addEventListener('play', function () { cancelAnimationFrame(raf); loop(); });
+  ['seeked', 'loadedmetadata', 'timeupdate'].forEach(function (ev) { video.addEventListener(ev, update); });
+  svg.addEventListener('click', function (e) {
+    if (!cur || !video.duration) return;
+    var b = svg.getBoundingClientRect();
+    var sx = (e.clientX - b.left) / b.width * W;
+    var f = Math.min(1, Math.max(0, (sx - L) / (W - L - R)));
+    video.currentTime = f * video.duration;
+  });
+  function load(key) {
+    var ep = EPS[key];
+    document.querySelectorAll('.tab').forEach(function (t) { t.setAttribute('aria-selected', t.dataset.ep === key); });
+    video.pause(); video.src = ep.video; spd.hidden = !ep.speed;
+    ro.className = 'readout'; ro.textContent = 'Press play';
+    var show = function (d) {
+      draw(d);
+      note.textContent = ep.note + ' Gate open ' + Math.round(d.gate_open_frac * 100) +
+        '% of the episode; largest correction ' + d.max_res_deg.toFixed(2) + '°.';
+      update();
+    };
+    if (cache[key]) return show(cache[key]);
+    fetch(ep.data).then(function (r) { return r.json(); }).then(function (d) { cache[key] = d; show(d); })
+      .catch(function () { note.textContent = 'Trace data could not be loaded.'; });
+  }
+  document.querySelectorAll('.tab').forEach(function (t) { t.addEventListener('click', function () { load(t.dataset.ep); }); });
+  load('marker');
+})();
+</script>
 </body>
 </html>
